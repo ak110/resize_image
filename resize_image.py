@@ -13,7 +13,7 @@ def _main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     original_image = sklearn.datasets.load_sample_image("china.jpg")
-    save_image(output_dir / "original.jpg", original_image)
+    save_image(output_dir / "original.png", original_image)
 
     for mode in ["reduction", "magnification", "mixed"]:
         if mode == "reduction":
@@ -26,27 +26,27 @@ def _main():
             img = original_image[y : y + 32, x : x + 512]
 
         save_image(
-            output_dir / f"{mode}_cv2_area.jpg",
+            output_dir / f"{mode}_cv2_area.png",
             cv2.resize(img, (128, 128), interpolation=cv2.INTER_AREA),
         )
         save_image(
-            output_dir / f"{mode}_cv2_lanc.jpg",
+            output_dir / f"{mode}_cv2_lanc.png",
             cv2.resize(img, (128, 128), interpolation=cv2.INTER_LANCZOS4),
         )
         save_image(
-            output_dir / f"{mode}_pil_near.jpg",
+            output_dir / f"{mode}_pil_near.png",
             np.asarray(PIL.Image.fromarray(img).resize((128, 128), PIL.Image.NEAREST)),
         )
         save_image(
-            output_dir / f"{mode}_pil_lanc.jpg",
+            output_dir / f"{mode}_pil_lanc.png",
             np.asarray(PIL.Image.fromarray(img).resize((128, 128), PIL.Image.LANCZOS)),
         )
         save_image(
-            output_dir / f"{mode}_tf_area.jpg",
+            output_dir / f"{mode}_tf_area.png",
             tf.image.resize(img, (128, 128), "area").numpy().astype(np.uint8),
         )
         save_image(
-            output_dir / f"{mode}_tf_lanc.jpg",
+            output_dir / f"{mode}_tf_lanc.png",
             tf.image.resize(img, (128, 128), "lanczos5", antialias=True)
             .numpy()
             .astype(np.uint8),
